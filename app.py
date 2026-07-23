@@ -8,8 +8,12 @@ from services.ai_agent import (
     get_resume_feedback,
     get_company_research,
 )
-from services.database import create_table, save_job, get_saved_jobs
-
+from services.database import (
+    create_table,
+    save_job,
+    get_saved_jobs,
+    delete_job,
+)
 
 # Create the database table when the application starts.
 create_table()
@@ -320,18 +324,19 @@ elif page == "Job Search":
 
                 if save_clicked:
                     try:
-                        save_job(
+                        saved = save_job(
                             title,
                             company,
                             job_location,
                             job_url,
                         )
-                        st.success(f"Saved: {title}")
+                        if saved:
+                            st.success(f"Saved: {title}")
+                        else:
+                            st.warning("This job is already saved.")
 
                     except Exception as error:
-                        st.error(
-                            f"Could not save the job: {error}"
-                        )
+                        st.error(f"Could not save the job: {error}")
 
 
 # ====================================================
@@ -513,15 +518,30 @@ elif page == "Saved Jobs":
         )
 
         for index, job in enumerate(saved_jobs):
-            title, company, location, url = job
+            job_id, title, company, location, url = job
 
             with st.container(border=True):
                 st.markdown(f"### {title}")
                 st.write(f"**Company:** {company}")
                 st.write(f"**Location:** {location}")
 
+                button_col1, button_col2 = st.columns(2)
+
+            button_col1, button_col2 = st.columns(2)
+            with button_col1:
                 st.link_button(
                     "View Job",
-                    url,
-                    key=f"saved_job_link_{index}",
+                      url,
+                      key=f"saved_job_link_{index}",
+                      use_container_width=True,
                 )
+            with button_col2:
+                delete_clicked = st.button(
+                    "Delete Job",
+                    key=f"delete_job_{job_id}",
+                    use_container_width=True,
+                )
+            if delete_clicked:
+                delete_job(job_id)
+                st.success("Job deleted successfully!")
+                st.rerun()
