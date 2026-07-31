@@ -9,41 +9,45 @@ def get_dashboard_data():
 
         return {
             "saved_jobs": len(saved_jobs),
-            "database_status": "Connected",
+            "resume_analysis": 0,
+            "companies_researched": 0,
+            "database_status": "🟢 Online",
         }
 
     except Exception:
         return {
             "saved_jobs": 0,
-            "database_status": "Unavailable",
+            "resume_analysis": 0,
+            "companies_researched": 0,
+            "database_status": "🔴 Offline",
         }
 
 
 def render_metrics():
     data = get_dashboard_data()
 
-    column1, column2, column3, column4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
 
-    with column1:
+    with col1:
         st.metric(
-            "Saved Jobs",
+            "💾 Saved Jobs",
             data["saved_jobs"],
         )
 
-    with column2:
+    with col2:
         st.metric(
-            "Job Source",
-            "Adzuna",
+            "📄 Resume Analysis",
+            data["resume_analysis"],
         )
 
-    with column3:
+    with col3:
         st.metric(
-            "AI Engine",
-            "Gemini",
+            "🏢 Companies",
+            data["companies_researched"],
         )
 
-    with column4:
+    with col4:
         st.metric(
-            "Database",
+            "🗄 Database",
             data["database_status"],
         )

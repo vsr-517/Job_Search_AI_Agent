@@ -15,13 +15,14 @@ def feature_card(icon, title, description):
 
 
 def render_feature_cards():
-    st.subheader("Your career toolkit")
+    st.subheader("Your Career Toolkit")
     st.caption(
         "Search, evaluate, research, and organize job opportunities."
     )
 
     column1, column2, column3, column4 = st.columns(4)
 
+    # Job Search
     with column1:
         feature_card(
             "🔍",
@@ -36,6 +37,7 @@ def render_feature_cards():
             use_container_width=True,
         )
 
+    # Resume Analyzer
     with column2:
         feature_card(
             "📄",
@@ -43,37 +45,39 @@ def render_feature_cards():
             "Calculate an ATS score and receive AI feedback.",
         )
 
-        st.button(
-            "Coming next",
-            key="resume_coming_next",
-            disabled=True,
+        st.page_link(
+            "pages/2_Resume_Analyzer.py",
+            label="Open Resume Analyzer",
+            icon="📄",
             use_container_width=True,
         )
 
+    # Company Research
     with column3:
         feature_card(
             "🏢",
             "Company Research",
-            "Generate company and interview preparation insights.",
+            "Research companies and prepare for interviews.",
         )
 
-        st.button(
-            "Coming soon",
-            key="research_coming_soon",
-            disabled=True,
+        st.page_link(
+            "pages/3_Company_Research.py",
+            label="Open Company Research",
+            icon="🏢",
             use_container_width=True,
         )
 
+    # Saved Jobs
     with column4:
         feature_card(
             "💾",
             "Saved Jobs",
-            "Keep useful opportunities together in one place.",
+            "Manage your saved job applications.",
         )
 
-        st.button(
-            "Coming soon",
-            key="saved_jobs_coming_soon",
-            disabled=True,
+        st.page_link(
+            "pages/4_Saved_Jobs.py",
+            label="Open Saved Jobs",
+            icon="💾",
             use_container_width=True,
         )
